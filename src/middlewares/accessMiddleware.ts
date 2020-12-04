@@ -1,8 +1,8 @@
 import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
 
-import { AuthorizedRequest, JwtPayload } from "../types/types";
 import { extractAuthorizationCookie } from "../utils/extractAuthorizationCookie";
+import { AuthorizedRequest, JwtPayload } from "../types/types";
 import { ResponseCreator } from "../utils/ResponseCreator";
 
 export const accessMiddleware = (
@@ -16,10 +16,12 @@ export const accessMiddleware = (
       .status(401)
       .json(ResponseCreator.createErrorResponse("Unauthorized"));
   }
+
   const payload = jwt.verify(
     token,
     process.env.JWT_SECRET as string
   ) as JwtPayload;
   req.params.userId = payload.userId;
+
   next();
 };

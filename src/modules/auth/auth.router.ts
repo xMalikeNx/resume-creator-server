@@ -1,16 +1,16 @@
 import { Request, Response, Router } from "express";
 
+import { loginDtoValidationMiddleware } from "./middlewares/loginDtoValidationMiddleware";
 import { accessMiddleware } from "../../middlewares/accessMiddleware";
+import { ResponseCreator } from "../../utils/ResponseCreator";
+import { errorResponse } from "../../utils/errorResponse";
 import { AuthorizedRequest } from "../../types/types";
 import {
   createAuthorizationCookie,
   createDeleteAuthorizationCookie,
 } from "../../utils/createAuthorizationCookie";
-import { errorResponse } from "../../utils/errorResponse";
-import { ResponseCreator } from "../../utils/ResponseCreator";
-import { LoginDto } from "./auth.dto";
 import { AuthService } from "./auth.service";
-import { loginDtoValidationMiddleware } from "./middlewares/loginDtoValidationMiddleware";
+import { LoginDto } from "./auth.dto";
 
 const authRouter = Router();
 const authService = new AuthService();

@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+
+import { isLoginValid, isPasswordValid } from "../validation/user.validation";
 import { ResponseCreator } from "../../../utils/ResponseCreator";
 import { CreateUserDto } from "../user.dto";
-import { isLoginValid, isPasswordValid } from "../validation/user.validation";
 
 export const createUserDtoValidationMiddleware = (
   req: Request,

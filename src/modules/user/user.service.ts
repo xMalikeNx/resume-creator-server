@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
-import { HttpError } from "../../utils/HttpError";
 import { UserDocument, UserModel } from "./models/user.model";
+import { HttpError } from "../../utils/HttpError";
 import { CreateUserDto } from "./user.dto";
 
 export class UserService {
