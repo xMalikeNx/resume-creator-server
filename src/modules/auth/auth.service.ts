@@ -26,4 +26,17 @@ export class AuthService {
 
     return token;
   };
+
+  getProfile = async (userId: string) => {
+    const user = await UserModel.findOne({ _id: userId });
+
+    if (!user) {
+      throw new HttpError("User not found", 404);
+    }
+
+    const userObject = user.toObject();
+    // @ts-ignore
+    delete userObject.password;
+    return userObject;
+  };
 }

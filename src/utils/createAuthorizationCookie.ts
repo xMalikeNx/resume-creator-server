@@ -7,11 +7,11 @@ const expiresTime = {
 };
 
 export const createAuthorizationCookie = (token: string) =>
-  `Authorization=Bearer ${token}; HttpOnly; Path=/; Expires=${new Date(
+  `Authorization=Bearer ${token}; Path=/; Expires=${new Date(
     Date.now() + expiresTime.week
-  ).toString()}`;
+  ).toString()}; HttpOnly`;
 
 export const createDeleteAuthorizationCookie = () =>
-  `Authorization=Bearer; HttpOnly; Path=/; Expires=${new Date(
+  `Authorization=Bearer; Path=/; Expires=${new Date(
     Date.now() - 1000
-  ).toString()}`;
+  ).toString()}; HttpOnly`;

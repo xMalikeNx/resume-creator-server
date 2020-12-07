@@ -51,8 +51,12 @@ authRouter.get(
   "/profile",
   [accessMiddleware],
   async (req: AuthorizedRequest, res: Response) => {
-    console.log(req.params.userId);
-    res.send("ok");
+    try {
+      const user = await authService.getProfile(req.params.userId);
+      res.json(ResponseCreator.createSuccessResponse(user));
+    } catch (err) {
+      return errorResponse(res, err);
+    }
   }
 );
 
