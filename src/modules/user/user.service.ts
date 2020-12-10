@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 
 import { UserDocument, UserModel } from "./models/user.model";
 import { HttpError } from "../../utils/HttpError";
-import { CreateUserDto } from "./user.dto";
+import { CreateUserDto, UpdateProfileDto } from "./user.dto";
 
 export class UserService {
   createUser = async (createUserDto: CreateUserDto) => {
@@ -10,7 +10,7 @@ export class UserService {
       login: createUserDto.login,
     });
     if (existingUser) {
-      throw new HttpError("User with that login already exists");
+      throw new HttpError(`Логин ${createUserDto.login} уже занят`, 400);
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -27,5 +27,20 @@ export class UserService {
     // @ts-ignore
     delete userObject.password;
     return userObject;
+  };
+
+  updateProfile = async (
+    userId: string,
+    updateProfileDto: UpdateProfileDto
+  ) => {
+    const user = await UserModel.findOne({ _id: userId });
+
+    if (!user) {
+      throw new HttpError("Пользователь не найден", 404);
+    }
+
+    await user.set(updateProfileDto);
+    await user.save();
+    return this.prepareUser(user);
   };
 }
