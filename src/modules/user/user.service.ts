@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { UserDocument, UserModel } from "./models/user.model";
 import { HttpError } from "../../utils/HttpError";
 import { CreateUserDto, UpdateProfileDto } from "./user.dto";
+import { parseDate } from "../../utils/date-helpers";
 
 export class UserService {
   createUser = async (createUserDto: CreateUserDto) => {
@@ -39,7 +40,10 @@ export class UserService {
       throw new HttpError("Пользователь не найден", 404);
     }
 
-    await user.set(updateProfileDto);
+    await user.set({
+      ...updateProfileDto,
+      birthDate: parseDate(updateProfileDto.birthDate),
+    });
     await user.save();
     return this.prepareUser(user);
   };

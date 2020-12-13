@@ -22,9 +22,11 @@ export const createResumeDtoValidationMiddleware = (
     error = true;
   }
   if (!isExperienceArrayValid(experience)) {
+    console.log("experiecne invalid");
     error = true;
   }
   if (!isEducationArrayValid(education)) {
+    console.log("education invalid");
     error = true;
   }
   if (!isSkillsValid(skills)) {

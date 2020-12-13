@@ -1,7 +1,6 @@
-import { parse } from "date-fns";
-
 import { COMPANY_NAME, DATE_FORMAT, RESUME_URL } from "../resume.consts";
 import { Education, Experience } from "../models/resume.model";
+import { parseDate } from "../../../utils/date-helpers";
 
 export const isSkillsValid = (skills: string[] | undefined) => {
   if (!skills) {
@@ -47,19 +46,18 @@ const isExperienceValid = (experience: Experience) => {
     error = true;
   }
 
-  if (!experience.startDate || !isDateValid(experience.startDate)) {
-    error = true;
-  }
+  error = !parseDate(experience.startDate);
 
   if (experience.endDate && !isDateValid(experience.endDate)) {
     error = true;
   }
 
-  if (
-    experience.startDate &&
-    experience.endDate &&
-    +experience.startDate > +experience.endDate
-  ) {
+  const startDate = parseDate(experience.startDate);
+  const endDate = parseDate(experience.endDate);
+
+  error = !startDate;
+
+  if (startDate && endDate && startDate > endDate) {
     error = true;
   }
 
@@ -77,7 +75,7 @@ export const isEducationArrayValid = (
 };
 
 const isEducationValid = (education: Education) => {
-  let error = false;
+  let error: boolean = false;
 
   if (!COMPANY_NAME.test(education.institution)) {
     error = true;
@@ -87,19 +85,17 @@ const isEducationValid = (education: Education) => {
     error = true;
   }
 
-  if (!education.startDate || !isDateValid(education.startDate)) {
-    error = true;
-  }
+  error = !parseDate(education.startDate);
 
   if (education.endDate && !isDateValid(education.endDate)) {
     error = true;
   }
 
-  if (
-    education.startDate &&
-    education.endDate &&
-    +education.startDate > +education.endDate
-  ) {
+  const startDate = parseDate(education.startDate);
+  const endDate = parseDate(education.endDate);
+
+  if (startDate && endDate && startDate > endDate) {
+    console.log("error date");
     error = true;
   }
 

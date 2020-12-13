@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { parseDate } from "../../../utils/date-helpers";
 
 import { ResponseCreator } from "../../../utils/ResponseCreator";
 import { UpdateProfileDto } from "../user.dto";
@@ -15,6 +16,7 @@ export const updateProfileDtoValidationMiddleware = (
     about,
     email,
     phone,
+    birthDate,
   } = req.body as UpdateProfileDto;
   let error = false;
 
@@ -35,6 +37,10 @@ export const updateProfileDtoValidationMiddleware = (
   }
 
   if (phone && !isPhoneValid(phone)) {
+    error = true;
+  }
+
+  if (!birthDate || !parseDate(birthDate)) {
     error = true;
   }
 

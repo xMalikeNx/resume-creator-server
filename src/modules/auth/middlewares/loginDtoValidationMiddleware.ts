@@ -12,7 +12,7 @@ export const loginDtoValidationMiddleware = (
   if (!login || !password) {
     res
       .status(400)
-      .json(ResponseCreator.createErrorResponse("Invalid credentials"));
+      .json(ResponseCreator.createErrorResponse("Логин или пароль введены не верно"));
   }
   next();
 };

@@ -1,9 +1,10 @@
 import { isValidObjectId } from "mongoose";
 
 import { UserModel } from "../user/models/user.model";
-import { ResumeModel } from "./models/resume.model";
+import { ResumeDocument, ResumeModel } from "./models/resume.model";
 import { HttpError } from "../../utils/HttpError";
 import { ResumeDtoPayload } from "./resume.dto";
+import { parseDate } from "../../utils/date-helpers";
 
 export class ResumeService {
   getUser = async (userId: string) => {
@@ -26,10 +27,22 @@ export class ResumeService {
       }
     }
 
-    const resume = await ResumeModel.create({
+    const payloadData = {
       ...createResumeDto,
+      education: createResumeDto.education?.map((item) => ({
+        ...item,
+        startDate: parseDate(item.startDate),
+        endDate: item.endDate ? parseDate(item.endDate) : null,
+      })),
+      experience: createResumeDto.experience?.map((item) => ({
+        ...item,
+        startDate: parseDate(item.startDate),
+        endDate: item.endDate ? parseDate(item.endDate) : null,
+      })),
       user: user._id as string,
-    });
+    };
+
+    const resume = await ResumeModel.create(payloadData as ResumeDocument);
     resume.save();
 
     return resume;

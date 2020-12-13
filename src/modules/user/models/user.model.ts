@@ -29,6 +29,22 @@ export const UserSchema = new Schema({
     type: String,
     required: false,
   },
+  avatar: {
+    type: String,
+    required: false,
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+  profession: {
+    type: String,
+    required: false,
+  },
+  birthDate: {
+    type: Date,
+    required: false,
+  },
 });
 
 export const UserModel = model<UserDocument>("user", UserSchema);

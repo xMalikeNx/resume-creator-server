@@ -46,6 +46,7 @@ const EducationSchema = new Schema({
 });
 
 const ResumeSchema = new Schema({
+  name: String,
   user: {
     type: Types.ObjectId,
     ref: UserModel,

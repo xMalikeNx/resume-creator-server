@@ -11,12 +11,12 @@ export class AuthService {
     const user = await UserModel.findOne({ login });
 
     if (!user) {
-      throw new HttpError("Login or password incorect");
+      throw new HttpError("Логин или пароль введены не верно", 400);
     }
 
     const isCompare = await bcrypt.compare(password, user.password);
     if (!isCompare) {
-      throw new HttpError("Login or password incorect");
+      throw new HttpError("Логин или пароль введены не верно", 400);
     }
 
     const token = jwt.sign(
