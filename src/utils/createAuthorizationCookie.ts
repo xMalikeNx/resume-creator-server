@@ -11,9 +11,9 @@ export const createAuthorizationCookie = (token: string) =>
     process.env.CORS_ORIGIN ? ` Domain=${process.env.DOMAIN};` : ""
   } Path=/; Expires=${new Date(
     Date.now() + expiresTime.week
-  ).toString()}; HttpOnly`;
+  ).toString()}; SameSite=None; HttpOnly`;
 
 export const createDeleteAuthorizationCookie = () =>
   `Authorization=Bearer; Path=/; Expires=${new Date(
     Date.now() - 1000
-  ).toString()}; HttpOnly`;
+  ).toString()}; SameSite=None; HttpOnly`;
