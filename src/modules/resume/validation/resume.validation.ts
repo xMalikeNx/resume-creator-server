@@ -3,7 +3,7 @@ import { Education, Experience } from "../models/resume.model";
 import { parseDate } from "../../../utils/date-helpers";
 
 export const isSkillsValid = (skills: string[] | undefined) => {
-  if (!skills) {
+  if (!skills || !skills.length) {
     return true;
   }
 
@@ -11,7 +11,7 @@ export const isSkillsValid = (skills: string[] | undefined) => {
 };
 
 export const isUrlValid = (url: string | undefined) => {
-  if (typeof url === "undefined") {
+  if (!url) {
     return true;
   }
   return RESUME_URL.test(url);
@@ -21,7 +21,7 @@ export const isExperienceArrayValid = (
   experienceList: Experience[] | undefined
 ) => {
   if (!experienceList || !experienceList.length) {
-    return false;
+    return true;
   }
 
   return experienceList.every((experience) => isExperienceValid(experience));

@@ -45,21 +45,24 @@ const EducationSchema = new Schema({
   endDate: Date,
 });
 
-const ResumeSchema = new Schema({
-  name: String,
-  user: {
-    type: Types.ObjectId,
-    ref: UserModel,
+const ResumeSchema = new Schema(
+  {
+    name: String,
+    user: {
+      type: Types.ObjectId,
+      ref: UserModel,
+    },
+    url: {
+      type: String,
+      required: false,
+    },
+    experience: [ExperienceSchema],
+    education: [EducationSchema],
+    skills: {
+      type: [String],
+    },
   },
-  url: {
-    type: String,
-    required: false,
-  },
-  experience: [ExperienceSchema],
-  education: [EducationSchema],
-  skills: {
-    type: [String],
-  },
-});
+  { timestamps: { createdAt: "createdAt" } }
+);
 
 export const ResumeModel = model<ResumeDocument>("resume", ResumeSchema);

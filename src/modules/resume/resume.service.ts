@@ -65,22 +65,47 @@ export class ResumeService {
     if (!resume) {
       throw new HttpError("Resume not found", 404);
     }
-    await resume.set(updateResumeDto);
+    await resume.set({
+      ...updateResumeDto,
+      education: updateResumeDto.education?.map((item) => ({
+        ...item,
+        startDate: parseDate(item.startDate),
+        endDate: item.endDate ? parseDate(item.endDate) : null,
+      })),
+      experience: updateResumeDto.experience?.map((item) => ({
+        ...item,
+        startDate: parseDate(item.startDate),
+        endDate: item.endDate ? parseDate(item.endDate) : null,
+      })),
+    });
     await resume.save();
     return resume;
   };
 
   getResume = async (userLogin: string, resumeUrl: string) => {
-    const user = await UserModel.findOne({ login: userLogin });
+    let user;
+
+    if (isValidObjectId(userLogin)) {
+      user = await UserModel.findOne({ _id: userLogin });
+    } else {
+      user = await UserModel.findOne({ login: userLogin });
+    }
+
     if (!user) {
-      throw new HttpError("Resume not found", 404);
+      throw new HttpError("User not found", 404);
     }
 
     let resume;
     if (isValidObjectId(resumeUrl)) {
-      resume = await ResumeModel.findOne({ _id: resumeUrl, user: user._id });
+      resume = await ResumeModel.findOne({
+        _id: resumeUrl,
+        user: user._id,
+      }).populate("user", "-password");
     } else {
-      resume = await ResumeModel.findOne({ url: resumeUrl, user: user._id });
+      resume = await ResumeModel.findOne({
+        url: resumeUrl,
+        user: user._id,
+      }).populate("user", "-password");
     }
 
     if (!resume) {

@@ -41,6 +41,20 @@ resumeRouter.get(
   }
 );
 
+resumeRouter.get(
+  "/:resumeId",
+  [accessMiddleware],
+  async (req: AuthorizedRequest<{ resumeId: string }>, res: Response) => {
+    try {
+      const { resumeId, userId } = req.params;
+      const resume = await resumeService.getResume(userId, resumeId);
+      return res.json(ResponseCreator.createSuccessResponse(resume));
+    } catch (err) {
+      return errorResponse(res, err);
+    }
+  }
+);
+
 resumeRouter.post(
   "/",
   [accessMiddleware, createResumeDtoValidationMiddleware],
