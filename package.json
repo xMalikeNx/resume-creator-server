@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start:dev": "nodemon -w ./src --exec ts-node src/main.ts",
-    "start": "npm run build && node ./dist/main.js"
+    "web": "npm run build && node ./dist/main.js"
   },
   "author": "Maliken",
   "license": "ISC",
