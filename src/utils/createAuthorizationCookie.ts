@@ -7,7 +7,9 @@ const expiresTime = {
 };
 
 export const createAuthorizationCookie = (token: string) =>
-  `Authorization=Bearer ${token}; Path=/; Expires=${new Date(
+  `Authorization=Bearer ${token};${
+    process.env.CORS_ORIGIN ? ` Domain=${process.env.CORS_ORIGIN};` : ""
+  } Path=/; Expires=${new Date(
     Date.now() + expiresTime.week
   ).toString()}; HttpOnly`;
 
