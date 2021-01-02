@@ -8,12 +8,14 @@ const expiresTime = {
 
 export const createAuthorizationCookie = (token: string) =>
   `Authorization=Bearer ${token};${
-    process.env.CORS_ORIGIN ? ` Domain=${process.env.DOMAIN};` : ""
+    process.env.DOMAIN
+      ? ` SameSite=None; Secure; Domain=${process.env.DOMAIN};`
+      : ""
   } Path=/; Expires=${new Date(
     Date.now() + expiresTime.week
-  ).toString()}; SameSite=None; HttpOnly`;
+  ).toString()}; HttpOnly`;
 
 export const createDeleteAuthorizationCookie = () =>
   `Authorization=Bearer; Path=/; Expires=${new Date(
     Date.now() - 1000
-  ).toString()}; SameSite=None; HttpOnly`;
+  ).toString()}; SameSite=None; Secure; HttpOnly`;
