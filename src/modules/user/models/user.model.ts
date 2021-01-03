@@ -45,6 +45,22 @@ export const UserSchema = new Schema({
     type: Date,
     required: false,
   },
+  instagram: {
+    type: String,
+    required: false,
+  },
+  vk: {
+    type: String,
+    required: false,
+  },
+  gitHub: {
+    type: String,
+    required: false,
+  },
+  telegram: {
+    type: String,
+    required: false,
+  },
 });
 
 export const UserModel = model<UserDocument>("user", UserSchema);
